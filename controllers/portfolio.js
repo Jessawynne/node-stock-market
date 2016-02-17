@@ -7,7 +7,15 @@ module.exports.index = (req, res) => {
     if (err) throw err;
 
     if (doc) {
-      res.send(doc);
+      const portfolioArray = [];
+
+      doc.forEach((obj) => {
+        portfolioArray.push(obj);
+      })
+      //returns rendered HTML of index.jade view
+      res.render('index', {
+        array: portfolioArray
+      });
       return;
     } else {
       //returns rendered HTML of index.jade view
@@ -33,21 +41,21 @@ module.exports.new = (req, res) => {
     numberOfStocks = req.body.qty * -1; 
   }
 
-  const myQuote = new Stock({
+  const newQuote = new Stock({
     name: req.body.name,
     symbol: req.body.sym,
     qty: numberOfStocks
   });
 
-  myQuote.save( (err, result) => {
+  newQuote.save( (err, result) => {
     if (err) throw err;
 
     //returns rendered HTML of index.jade view
     res.render('index', {
-      sym: myQuote.symbol,
-      comp: myQuote.name,
+      sym: newQuote.symbol,
+      comp: newQuote.name,
       price: price,
-      qty: myQuote.qty
+      qty: newQuote.qty
     });
   });
 };
