@@ -1,6 +1,7 @@
 'use strict';
 
-const app = require('express')();
+const express = require('express');
+const app = express();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
@@ -24,15 +25,16 @@ app.set('view engine', 'jade');
 
 app.locals.title = 'Node Stock Market Application';
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(path.join(_dirname, 'public')));
 
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use(routes);
 
 mongoose.connect(MONGODB_URL);
-
-mongoose.connection.on('open', () => {
+mongoose.connection.on('error', console.error.bind(console, 'connection error:'));
+mongoose.connection.once('open', () => {
   app.listen(PORT, () => {
     console.log(`Node.js server started. Listening on port ${PORT}`);
   });
