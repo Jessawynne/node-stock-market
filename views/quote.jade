@@ -1,0 +1,14 @@
+extends ../templates/default.jade
+
+block content
+  .container
+  h1 Get Quote
+  form(method='POST')
+    .form-group
+      label Stock Symbol
+      input(type='text', name='sym', placeholder='XXXX')
+    .form-group
+      input(type='submit', value='Get Stock Details')
+
+  block details
+    p Enter the company stock symbol to get a quote.

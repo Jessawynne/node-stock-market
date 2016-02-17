@@ -1,0 +1,28 @@
+extends ./quote.jade
+
+
+block details
+  .container
+  form(method='POST', action='/')
+    h2 Details:
+    .form-group
+      label Symbol:
+      input(type='text', name='sym' value='#{symbol}' readonly)
+    .form-group
+      label Company Name:
+      input(type='text', name='name' value='#{name}' readonly)
+    .form-group
+      label Price:
+      input(type='text', name='price' value='#{price}' readonly)
+
+    h2 To Buy or Sell this Stock
+    .form-group
+      label Quantity
+      input(type='number', name='qty', min='0')
+    .form-group
+      label Buy
+        input(type="radio", name="dowhat", value="buy" required)
+      label Sell
+        input(type="radio", name="dowhat", value="sell" required)
+    .form-group
+      input(type='submit', value='Submit')
