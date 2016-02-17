@@ -12,6 +12,7 @@ module.exports.index = (req, res) => {
     } else {
       //returns rendered HTML of index.jade view
       res.render('index', {
+        //example stock added to portfolio
         sym: 'GE',
         company: 'General Electric Co',
         price: '29.50',
@@ -22,5 +23,31 @@ module.exports.index = (req, res) => {
 };
 
 module.exports.new = (req, res) => {
-  
+  const price = req.body.price
+  const stockAction = req.body.action;
+  let numberOfStocks;
+
+  if (stockAction === 'buy') {
+    numberOfStocks = req.body.qty;
+  } else if (stockAction === 'sell') {
+    numberOfStocks = req.body.qty * -1; 
+  }
+
+  const myQuote = new Stock({
+    name: req.body.name,
+    symbol: req.body.sym,
+    qty: numberOfStocks
+  });
+
+  myQuote.save( (err, result) => {
+    if (err) throw err;
+
+    //returns rendered HTML of index.jade view
+    res.render('index', {
+      sym: myQuote.symbol,
+      comp: myQuote.name,
+      price: price,
+      qty: myQuote.qty
+    });
+  });
 };
